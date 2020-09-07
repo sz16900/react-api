@@ -1,30 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import Loader from '../Components/Loader';
 
 function Product() {
   const { id } = useParams();
   const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState({ loading: false, data: null });
   let content = null;
 
   useEffect(() => {
+    setProduct({
+      loading: true,
+      data: null,
+    });
     axios.get(url).then((response) => {
-      setProduct(response.data);
+      setProduct({
+        loading: false,
+        data: response.data,
+      });
     });
   }, [url]);
 
-  if (product) {
+  if (product.loading) {
+    content = <Loader></Loader>;
+  }
+
+  if (product.data) {
     content = (
       <div>
-        <h1 className="text-2xl font-bold mb-3">{product.name}</h1>
-        <div>
-          <img src={product.sprites.back_default} alt={product.name} />
+        <h1 className="text-2xl font-bold mb-3">{product.data.name}</h1>
+        <div className="flex">
+          <img src={product.data.sprites.back_default} alt={product.name} />
+          <img src={product.data.sprites.front_default} alt={product.name} />
         </div>
-        <div className=" text-xl mb-3">
+        <div className="text-xl mb-3">
           Main Abilities:{' '}
           <span className="font-bold text-xl mb-3">
-            {product.abilities[0].ability.name}
+            {product.data.abilities[0].ability.name}
           </span>
         </div>
         <div>
