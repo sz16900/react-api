@@ -13,6 +13,7 @@ function Product() {
   });
   let content = null;
 
+  //   This helps so that the browser doesn't send infinite requests, it only changes on url changing
   useEffect(() => {
     setProduct({
       loading: true,
