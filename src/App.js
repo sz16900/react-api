@@ -1,16 +1,25 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './Components/Header';
 import HelloWorld from './Components/HelloWorld';
 import Footer from './Components/Footer';
-import CounterExample from './Components/CounterExample';
 
 function App() {
   return (
     <div>
-      <Header />
-      <HelloWorld name="Seth" />
-      {/* <CounterExample /> */}
-      <Footer />
+      <Router>
+        <Header />
+        <HelloWorld name="Seth" />
+        <Switch>
+          <Route exact path="/">
+            <h1 className="font-bold text-2xl">THis is the Hoome Page</h1>
+          </Route>
+          <Route path="/about">
+            <h1 className="font-bold text-2xl">About us</h1>
+          </Route>
+        </Switch>
+        <Footer />
+      </Router>
     </div>
   );
 }
